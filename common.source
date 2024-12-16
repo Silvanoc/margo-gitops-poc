@@ -1,0 +1,7 @@
+SCHEME=http
+HOST=localhost
+PORT=60000
+DEPLOYMENT_NAME=poc-deploy
+APP_NAME=poc-app
+ARTIFACT_TYPE=application/vnd.margo.desired-state.v1
+DESIRED_STATE_TYPE=application/vnd.margo.desired-state.v1+yaml

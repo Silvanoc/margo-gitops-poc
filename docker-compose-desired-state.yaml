@@ -1,0 +1,65 @@
+apiVersion: application.margo.org/v1alpha1
+kind: ApplicationDeployment
+metadata:
+    annotations:
+        applicationId: vnd-margo-app-poc
+        id: ad9b614e-8912-45f4-a523-372358765def
+    name: vnd-margo-deployment-poc
+    namespace: margo-poc
+spec:
+    deploymentProfile:
+        type: docker-compose
+        components:
+            - name: poc-docker-compose
+              properties:
+                keyLocation: https://poc.margo.com/poc-app/docker/public-key.asc
+                packageLocation: https://poc.margo.com/poc-app/docker/poc-docker-compose.tar.gz
+    parameters:
+        adminName:
+            value: Some One
+            targets:
+                - pointer: ENV.ADMIN_NAME
+                  components:
+                    - poc-docker-compose
+        adminPrincipalName:
+            value: someone@somewhere.com
+            targets:
+                - pointer: ENV.ADMIN_PRINCIPALNAME
+                  components:
+                    - poc-docker-compose
+        idpClientId:
+            value: 123-ABC
+            targets:
+                - pointer: ENV.IDP_CLIENT_ID
+                  components:
+                    - poc-docker-compose
+        idpName:
+            value: Azure AD
+            targets:
+                - pointer: ENV.IDP_NAME
+                  components:
+                    - poc-docker-compose
+        idpProvider:
+            value: aad
+            targets:
+                - pointer: ENV.IDP_PROVIDER
+                  components:
+                    - poc-docker-compose
+        idpUrl:
+            value: https://123-abc.com
+            targets:
+                - pointer: ENV.IDP_URL
+                  components:
+                    - poc-docker-compose
+        pollFrequency:
+            value: "120"
+            targets:
+                - pointer: ENV.POLL_FREQUENCY
+                  components:
+                    - poc-docker-compose
+        siteId:
+            value: SID-123-ABC
+            targets:
+                - pointer: ENV.SITE_ID
+                  components:
+                    - poc-docker-compose
