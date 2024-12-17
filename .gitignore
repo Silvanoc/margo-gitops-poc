@@ -1,5 +1,6 @@
 *.bkp
 tmp
+docker-compose-desired-state.yaml
 poc-app/poc-app.tgz
 poc-app/poc-app.tgz.sig
 poc-app/margo-poc.public.pgp
