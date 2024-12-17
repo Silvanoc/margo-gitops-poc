@@ -1,7 +1,24 @@
 SCHEME=http
 HOST=localhost
 PORT=60000
+REGISTRY=${HOST}:${PORT}
 DEPLOYMENT_NAME=poc-deploy
 APP_NAME=poc-app
-ARTIFACT_TYPE=application/vnd.margo.desired-state.v1
+APP_ARTIFACT_TYPE=application/vnd.margo.app.v1
+APP_ARCHIVE_TYPE=application/vnd.margo.app.v1.tar+gzip
+DEPLOY_ARTIFACT_TYPE=application/vnd.margo.desired-state.v1
 DESIRED_STATE_TYPE=application/vnd.margo.desired-state.v1+yaml
+
+fail() {
+    echo "🚨 ERROR: $1"
+    exit 1
+}
+
+check_command() {
+    if command -v $1 >/dev/null ; then
+        return 0
+    else
+        fail "Command '$1' is missing"
+    fi
+}
+

@@ -13,7 +13,7 @@ spec:
             - name: poc-docker-compose
               properties:
                 keyLocation: https://poc.margo.com/poc-app/docker/public-key.asc
-                packageLocation: https://poc.margo.com/poc-app/docker/poc-docker-compose.tar.gz
+                packageLocation: ${SCHEME}://${REGISTRY}/v2/${APP_NAME}/blobs/${BLOB_DIGEST}
     parameters:
         adminName:
             value: Some One
