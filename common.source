@@ -6,8 +6,10 @@ DEPLOYMENT_NAME=poc-deploy
 APP_NAME=poc-app
 APP_ARTIFACT_TYPE=application/vnd.margo.app.v1
 APP_ARCHIVE_TYPE=application/vnd.margo.app.v1.tar+gzip
+APP_SIGNATURE_TYPE=application/vnd.margo.app.v1+sig
 DEPLOY_ARTIFACT_TYPE=application/vnd.margo.desired-state.v1
 DESIRED_STATE_TYPE=application/vnd.margo.desired-state.v1+yaml
+PUBLIC_KEY=margo-poc-public-key
 
 fail() {
     echo "🚨 ERROR: $1"
