@@ -3,13 +3,17 @@ HOST=localhost
 PORT=60000
 REGISTRY=${HOST}:${PORT}
 DEPLOYMENT_NAME=poc-deploy
+NAMESPACE=silvanoc
 APP_NAME=poc-app
 APP_ARTIFACT_TYPE=application/vnd.margo.app.v1
+APP_PACKAGE_TYPE=application/vnd.margo.package.v1
 APP_ARCHIVE_TYPE=application/vnd.margo.app.v1.tar+gzip
 APP_SIGNATURE_TYPE=application/vnd.margo.app.v1+sig
 DEPLOY_ARTIFACT_TYPE=application/vnd.margo.desired-state.v1
 DESIRED_STATE_TYPE=application/vnd.margo.desired-state.v1+yaml
-PUBLIC_KEY=margo-poc-public-key
+PUBLIC_KEY=margo-poc.public.pgp
+PUBLIC_KEY_NAME=margo-poc-public-key
+PUBLIC_KEY_TYPE=application/pgp-keys
 
 fail() {
     echo "🚨 ERROR: $1"
