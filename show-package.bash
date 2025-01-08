@@ -11,11 +11,11 @@ check_command regctl
 echo ; echo "🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍"
 
 echo ; echo "🔍🔍🔍 Show signing public key 🔍🔍🔍" ; echo
-OCI_REF="${REGISTRY}/silvanoc/${PUBLIC_KEY_NAME}:latest"
+OCI_REF=${REGISTRY}/${NAMESPACE}/${PUBLIC_KEY_NAME}:latest
 regctl manifest get --format=raw-body ${OCI_REF} | jq -r '.'
 
 echo ; echo "🔍🔍🔍 Show published package 🔍🔍🔍" ; echo
-OCI_REF="${REGISTRY}/${NAMESPACE}/${APP_NAME}:latest"
+OCI_REF=${REGISTRY}/${NAMESPACE}/${APP_NAME}:latest
 regctl manifest get --format=raw-body ${OCI_REF} | jq -r '.'
 
 echo ; echo "🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍" ; echo

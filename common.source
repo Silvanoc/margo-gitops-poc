@@ -1,7 +1,11 @@
 SCHEME=http
+#HOST=localhost
+#PORT=60000
 HOST=ghcr.io
+#REGISTRY=${HOST}:${PORT}
 REGISTRY=${HOST}
 NAMESPACE=silvanoc
+#DEPLOYMENT_NAME=poc-deploy
 DEPLOYMENT_NAME=${NAMESPACE}/poc-deploy
 APP_NAME=poc-app
 APP_ARTIFACT_TYPE=application/vnd.margo.app.v1
@@ -13,6 +17,14 @@ DESIRED_STATE_TYPE=application/vnd.margo.desired-state.v1+yaml
 PUBLIC_KEY=margo-poc.public.pgp
 PUBLIC_KEY_NAME=margo-poc-public-key
 PUBLIC_KEY_TYPE=application/pgp-keys
+
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+BLUE="\e[34m"
+MAGENTA="\e[35m"
+CYAN="\e[36m"
+ENDCOLOR="\e[0m"
 
 fail() {
     echo "🚨 ERROR: $1"
