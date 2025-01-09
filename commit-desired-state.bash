@@ -13,7 +13,7 @@ echo ; echo "🎯🎯🎯 Publish pseudo-app and others 🎯🎯🎯" ; echo
 echo "Push the desired state"
 # publish the desired state
 OCI_REF=${REGISTRY}/${NAMESPACE}/${PUBLIC_KEY_NAME}:latest
-SIG_BLOB_DIGEST=$(regctl manifest get --format=raw-body ${OCI_REF} | jq -r '.layers[] | select(.mediaType=="'${APP_SIGNATURE_TYPE}'") | .digest')
+PUBLIC_KEY_DIGEST=$(regctl manifest get --format=raw-body ${OCI_REF} | jq -r '.layers[] | select(.mediaType=="'${PUBLIC_KEY_TYPE}'") | .digest')
 OCI_REF=${REGISTRY}/${NAMESPACE}/${APP_NAME}:latest
 APP_BLOB_DIGEST=$(regctl manifest get --format=raw-body ${OCI_REF} | jq -r '.layers[] | select(.mediaType=="'${APP_ARCHIVE_TYPE}'") | .digest')
 export SCHEME
@@ -21,8 +21,8 @@ export REGISTRY
 export APP_NAME
 export PUBLIC_KEY_NAME
 export APP_BLOB_DIGEST
-export SIG_BLOB_DIGEST
-envsubst '${SCHEME},${REGISTRY},${APP_NAME},${APP_BLOB_DIGEST},${PUBLIC_KEY_NAME},${SIG_BLOB_DIGEST}' < docker-compose-desired-state.yaml.in > docker-compose-desired-state.yaml
+export PUBLIC_KEY_DIGEST
+envsubst '${SCHEME},${REGISTRY},${APP_NAME},${APP_BLOB_DIGEST},${PUBLIC_KEY_NAME},${PUBLIC_KEY_DIGEST}' < docker-compose-desired-state.yaml.in > docker-compose-desired-state.yaml
 
 OCI_REF=${REGISTRY}/${DEPLOYMENT_NAME}:desired
 if regctl manifest head ${OCI_REF} &>/dev/null ; then
