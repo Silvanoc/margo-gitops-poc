@@ -1,6 +1,6 @@
 services:
   web:
-    image: localhost/poc-app-web:latest
+    image: poc-app-web:latest
     ports:
       - "8000:5000"
     environment:
