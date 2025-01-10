@@ -15,7 +15,7 @@ echo "Push the desired state"
 OCI_REF=${REGISTRY}/${NAMESPACE}/${PUBLIC_KEY_NAME}:latest
 PUBLIC_KEY_DIGEST=$(regctl manifest get --format=raw-body ${OCI_REF} | jq -r '.layers[] | select(.mediaType=="'${PUBLIC_KEY_TYPE}'") | .digest')
 OCI_REF=${REGISTRY}/${NAMESPACE}/${APP_NAME}:latest
-APP_BLOB_DIGEST=$(regctl manifest get --format=raw-body ${OCI_REF} | jq -r '.layers[] | select(.mediaType=="'${APP_ARCHIVE_TYPE}'") | .digest')
+APP_BLOB_DIGEST=$(regctl manifest get --format=raw-body ${OCI_REF} | jq -r '.layers[] | select(.mediaType=="'${APP_PACKAGE_TYPE}'") | .digest')
 export SCHEME
 export REGISTRY
 export APP_NAME
