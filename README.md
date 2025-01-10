@@ -16,7 +16,7 @@ _Disclaimer_: this PoC applies the app signing approach that can be implicitly f
 ├──  poc-app
 │   ├──  app.py
 │   ├──  Dockerfile
-│   ├──  poc-compose.yaml
+│   ├──  docker-compose.yaml
 │   └──  requirements.txt
 ├──  prepare-package.bash
 ├──  publish-package.bash
