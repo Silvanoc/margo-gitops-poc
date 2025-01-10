@@ -1,10 +1,10 @@
 services:
   web:
-    build: .
+    image: localhost/poc-app-web:latest
     ports:
       - "8000:5000"
     environment:
       - LISTEN_ADDRR=:5000
       - REDIS_ADDR=redis:6379
   redis:
-    image: "redis:alpine"
+    image: redis:alpine

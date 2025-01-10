@@ -33,13 +33,18 @@ gpg --output "${APP_NAME}/${PUBLIC_KEY}" --armor --export ${KEY_ID} &>> ${LOG}
 
 (
     cd "${APP_NAME}"
-    echo "Getting container image archive 'poc-app-web.tar'"
-    docker compose -f docker-compose.yaml build &>> ${LOG}
+    echo "Creating container image archive '${APP_NAME}-web'"
+    docker build --tag ${APP_NAME}-web:latest . &>> ${LOG}
     docker save ${APP_NAME}-web:latest > ${APP_NAME}-web.tar
-    echo "Getting container image archive 'poc-app-redis.tar'"
+
+    echo "Creating container image archive '${APP_NAME}-redis.tar'"
     docker pull redis:alpine &>> ${LOG}
     docker save redis:alpine > ${APP_NAME}-redis.tar
+
+    echo "Creating '${APP_NAME}.app'"
     tar -czf "${APP_NAME}.app" docker-compose.yaml ${APP_NAME}-web.tar ${APP_NAME}-redis.tar
+    rm -f ${APP_NAME}-web.tar ${APP_NAME}-redis.tar
+
     echo ; echo "Content of the pseudo-app:"
     tar -tzf "${APP_NAME}.app"
 
