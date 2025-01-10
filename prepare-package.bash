@@ -4,14 +4,15 @@ set -eu
 
 THIS_SCRIPT="$(readlink -f "$0")"
 THIS_DIR="$(dirname "${THIS_SCRIPT}")"
-LOG="prepare-app.log"
+LOG="${THIS_DIR}/prepare-package.log"
+PRIVATE_KEY="margo-poc.private.pgp"
 source "${THIS_DIR}/common.source"
 
 check_command docker
 
 cleanup() {
     set +e
-    docker rmi ${APP_NAME}-web:latest &> ${LOG}
+    docker rmi ${APP_NAME}-web:latest &>> ${LOG}
     rm -f "${APP_NAME}/${APP_NAME}-web.tar" "${APP_NAME}/${APP_NAME}-redis.tar"
     gpgconf --kill gpg-agent
     rm -r $GNUPGHOME
@@ -26,8 +27,9 @@ echo "It will only contain a docker-compose file and two container image archive
 echo
 
 export GNUPGHOME="$(mktemp -d ${TMPDIR}/gpgtemp.XXXXXXXXXX)"
+rm -f ${LOG}
 gpg-agent --daemon &>> ${LOG}
-KEY_ID=$(gpg --import margo-poc.private.pgp 2>&1 | grep '^gpg: key .*: public key .* imported$' | sed 's/^gpg: key \(.*\): .*/\1/')
+KEY_ID=$(gpg --import "${PRIVATE_KEY}" 2>&1 | grep '^gpg: key .*: public key .* imported$' | sed 's/^gpg: key \(.*\): .*/\1/')
 rm -f "${APP_NAME}/${PUBLIC_KEY}"
 gpg --output "${APP_NAME}/${PUBLIC_KEY}" --armor --export ${KEY_ID} &>> ${LOG}
 
