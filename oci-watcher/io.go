@@ -62,17 +62,6 @@ func unpackTgz(src io.Reader, destDir string, skipHidden bool) error {
 	return nil
 }
 
-func streamToFile(reader io.Reader, filePath string) error {
-	file, err := os.Create(filePath)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	_, err = io.Copy(file, reader)
-	return err
-}
-
 func findAppFiles(dir string) ([]string, error) {
 	var appFiles []string
 	err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {

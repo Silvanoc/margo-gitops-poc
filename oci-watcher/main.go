@@ -31,7 +31,7 @@ var (
 func main() {
 	configPath := path.Join(os.Getenv("HOME"), ".docker", "config.json")
 	if !fileExists(configPath) {
-		_ = os.MkdirAll(path.Dir(configPath), 0755)
+		_ = os.MkdirAll(path.Dir(configPath), 0o755)
 
 		reader := bufio.NewReader(os.Stdin)
 
@@ -52,7 +52,7 @@ func main() {
 	}
 }`, encodedAuth)
 
-		file, err := os.OpenFile(configPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+		file, err := os.OpenFile(configPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0o600)
 		if err != nil {
 			log.Fatalf("Failed to create file: %v", err)
 		}

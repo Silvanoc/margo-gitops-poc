@@ -109,8 +109,7 @@ func downloadFromOCI(url string) (io.ReadCloser, error) {
 	if err != nil {
 		return nil, err
 	}
-	reader, err := rc.BlobGet(ctx, appRef, descriptor.Descriptor{Digest: digest.Digest(sha256)})
-	return reader, nil
+	return rc.BlobGet(ctx, appRef, descriptor.Descriptor{Digest: digest.Digest(sha256)})
 }
 
 func syncDeployments(ociRegistry, deployDir string) error {
@@ -140,7 +139,7 @@ func syncDeployments(ociRegistry, deployDir string) error {
 		}
 
 		log.Printf("%s: fetching from remote", deployment.Name)
-		_ = os.MkdirAll(destDir, 0755)
+		_ = os.MkdirAll(destDir, 0o755)
 
 		tempDir, err := os.MkdirTemp("", deployment.Name)
 		if err != nil {
@@ -175,7 +174,7 @@ func syncDeployments(ociRegistry, deployDir string) error {
 			return err
 		}
 
-		if err := os.WriteFile(hashFile, []byte(expectedHash), 0644); err != nil {
+		if err := os.WriteFile(hashFile, []byte(expectedHash), 0o644); err != nil {
 			return err
 		}
 
