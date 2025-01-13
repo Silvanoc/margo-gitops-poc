@@ -19,14 +19,11 @@ import (
 	"strings"
 
 	"github.com/opencontainers/go-digest"
-	"github.com/regclient/regclient"
 	"github.com/regclient/regclient/types/descriptor"
 	"github.com/regclient/regclient/types/manifest"
 	"github.com/regclient/regclient/types/ref"
 	"gopkg.in/yaml.v3"
 )
-
-var rc = regclient.New(regclient.WithDockerCerts(), regclient.WithDockerCreds())
 
 type ApplicationDeployment struct {
 	APIVersion string `yaml:"apiVersion"`
