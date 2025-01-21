@@ -9,7 +9,7 @@ _Disclaimer_: this PoC applies the app signing approach that can be implicitly f
 ## Structure
 
 ```
-
+ 
 ├──  common.source
 ├──  docker-compose-desired-state.yaml.in
 ├──  oci-watcher
@@ -27,7 +27,7 @@ _Disclaimer_: this PoC applies the app signing approach that can be implicitly f
 │   ├──  go.sum
 │   ├──  main.go
 ├──  prepare-package.bash
-├──  commit-desired-state.bash
+├──  publish-desired-state.bash
 ├──  publish-package.bash
 ├── 󰂺 README.md
 ├──  rest-watcher
@@ -88,7 +88,7 @@ A package is the combination of an app and the corresponding signature.
 
 #### 1. Desired-state Publication
 
-`commit-desired-state.bash` can be used to publish a new desired-state, timestamps are used for versioning and the tag `desired` for the latest reference.
+`publish-desired-state.bash` can be used to publish a new desired-state, timestamps are used for versioning and the tag `desired` for the latest reference.
 
 #### 2. Desired-state Consumption
 
