@@ -36,11 +36,11 @@ gpg --output "${APP_NAME}/${PUBLIC_KEY}" --armor --export ${KEY_ID} &>> ${LOG}
 (
     cd "${APP_NAME}"
     echo "Creating container image archive '${APP_NAME}-web'"
-    docker build --tag ${APP_NAME}-web:latest . &>> ${LOG}
+    docker build --platform linux/amd64 --tag ${APP_NAME}-web:latest . &>> ${LOG}
     docker save ${APP_NAME}-web:latest > ${APP_NAME}-web.tar
 
     echo "Creating container image archive '${APP_NAME}-redis.tar'"
-    docker pull redis:alpine &>> ${LOG}
+    docker pull --platform linux/amd64 redis:alpine &>> ${LOG}
     docker save redis:alpine > ${APP_NAME}-redis.tar
 
     echo "Creating '${APP_NAME}.app'"
