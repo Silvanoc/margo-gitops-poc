@@ -4,7 +4,7 @@ This proof-of-concept (PoC) should demonstrate how to use OCI registries to have
 
 As of now public repositories in the GitHub Container Registry are being used as OCI-registry repositories for publication.
 
-_Disclaimer_: this PoC applies the app signing approach that can be implicitly found in the [docker-compose deployment provided example](https://specification.margo.org/margo-api-reference/workload-api/desired-state-api/desired-state/#example-standalone-device-application-deployment-specification), without questioning it convenience.
+_Disclaimer_: this PoC applies the app signing approach that can be implicitly found in the [docker-compose deployment provided example](https://specification.margo.org/margo-api-reference/workload-api/desired-state-api/desired-state/#example-standalone-device-application-deployment-specification), without questioning its convenience.
 
 ## Structure
 
