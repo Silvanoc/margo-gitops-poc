@@ -9,18 +9,29 @@ _Disclaimer_: this PoC applies the app signing approach that can be implicitly f
 ## Structure
 
 ```
- 
-├──  commit-desired-state.bash
+
 ├──  common.source
 ├──  docker-compose-desired-state.yaml.in
+├──  oci-watcher
+│   ├──  crypto.go
+│   ├──  docker.go
+│   ├──  go.mod
+│   ├──  go.sum
+│   ├──  io.go
+│   ├──  main.go
+│   └──  oci.go
 ├──  poc-app
-│   ├──  app.py
+│   ├──  docker-compose.yaml
 │   ├──  Dockerfile
-│   ├──  docker-compose.yaml
-│   └──  requirements.txt
+│   ├──  go.mod
+│   ├──  go.sum
+│   ├──  main.go
 ├──  prepare-package.bash
+├──  commit-desired-state.bash
 ├──  publish-package.bash
 ├── 󰂺 README.md
+├──  rest-watcher
+│   └──  rest-watcher.bash
 ├──  show-desired-state.bash
 ├──  show-package.bash
 ```
@@ -29,6 +40,19 @@ _Disclaimer_: this PoC applies the app signing approach that can be implicitly f
 
 Multiple Bash scripts needed for PoC demonstration.
 See below in the [workflow section](#workflows) for further details
+
+### `oci-watcher`
+
+Go program that is "watching" the OCI-registry hosting the Margo desired-state to get any updates.
+
+It uses OCI-specific libraries for this purpose.
+That way the REST-API is not being addressed directly, but internally by the libraries.
+
+### `rest-watcher`
+
+Small shell script that demonstrates how to have a desired-state watcher directly relying on the REST-API without any specific libraries or tools.
+
+It only uses `curl`, `jq` and `sed` for this purpose and is capable of dealing with the GitHub OAuth2 authorization.
 
 ### `poc-app`
 
