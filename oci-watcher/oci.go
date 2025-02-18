@@ -141,6 +141,10 @@ func reconcileDeployments(ociRegistry, deployDir string) error {
 			actualHash := string(b)
 			if actualHash == expectedHash {
 				log.Printf("%s: deployment is up-to-date", deployment.Name)
+				// ensure it is running (e.g. after reboot)
+				if err := dockerEnsureRunning(destDir); err != nil {
+					log.Printf("%s: failed to start: %s", deployment.Name, err)
+				}
 				continue
 			}
 		}
@@ -219,10 +223,8 @@ func reconcileDeployments(ociRegistry, deployDir string) error {
 			return err
 		}
 
-		cmd := exec.Command("docker-compose", "up", "--detach", "--remove-orphans")
-		cmd.Dir = destDir
-		if err := cmd.Run(); err != nil {
-			return err
+		if err := dockerEnsureRunning(destDir); err != nil {
+			log.Printf("%s: failed to start: %s", deployment.Name, err)
 		}
 	}
 
@@ -246,5 +248,25 @@ func reconcileDeployments(ociRegistry, deployDir string) error {
 		}
 	}
 
+	return nil
+}
+
+func dockerEnsureRunning(dir string) error {
+	psCmd := exec.Command("docker-compose", "ps", "-q")
+	psCmd.Dir = dir
+	output, err := psCmd.Output()
+	if err != nil {
+		return err
+	}
+	if len(output) > 0 { // already up and running
+		return nil
+	}
+
+	log.Printf("%s: starting deployment", path.Base(dir))
+	upCmd := exec.Command("docker-compose", "up", "--detach", "--remove-orphans")
+	upCmd.Dir = dir
+	if err := upCmd.Run(); err != nil {
+		return err
+	}
 	return nil
 }
