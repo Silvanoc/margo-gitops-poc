@@ -112,12 +112,19 @@ func downloadFromOCI(url string) (io.ReadCloser, error) {
 	return rc.BlobGet(ctx, appRef, descriptor.Descriptor{Digest: digest.Digest(sha256)})
 }
 
-func syncDeployments(ociRegistry, deployDir string) error {
+func reconcileDeployments(ociRegistry, deployDir string) error {
 	deployments, err := getAppDeployment(ociRegistry)
 	if err != nil {
 		return err
 	}
+
+	allowedDeployments := make(map[string]bool, len(deployments.Spec.DeploymentProfile.Components))
+
+	// Step 1: Add/update deployments as specified in the desired state
 	for _, deployment := range deployments.Spec.DeploymentProfile.Components {
+		// keep track of deployment names for removing outdated deployments afterwards
+		allowedDeployments[deployment.Name] = true
+
 		destDir := path.Join(deployDir, deployment.Name)
 		hashFile := path.Join(destDir, ".hash")
 		expectedHash := strings.Split(deployment.Properties.PackageLocation, "sha256:")[1]
@@ -216,5 +223,26 @@ func syncDeployments(ociRegistry, deployDir string) error {
 			return err
 		}
 	}
+
+	// Step 2: Purge local deployments missing in the desired state
+	f, _ := os.Open(deployDir)
+	defer f.Close()
+
+	entries, _ := f.ReadDir(0)
+	for _, entry := range entries {
+		if entry.IsDir() {
+			if found, _ := allowedDeployments[entry.Name()]; !found {
+				log.Println("Purging stale deployment", entry.Name())
+				cmd := exec.Command("docker-compose", "down")
+				destDir := path.Join(deployDir, entry.Name())
+				cmd.Dir = destDir
+				if err := cmd.Run(); err != nil {
+					log.Println("ERROR: Failed to stop deployment", entry.Name())
+				}
+				_ = os.RemoveAll(destDir)
+			}
+		}
+	}
+
 	return nil
 }

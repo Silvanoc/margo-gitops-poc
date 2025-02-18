@@ -79,7 +79,7 @@ func main() {
 	for running {
 		select {
 		case <-ticker.C:
-			if err := syncDeployments(*ociRegistry, *deployDir); err != nil {
+			if err := reconcileDeployments(*ociRegistry, *deployDir); err != nil {
 				log.Println("ERROR:", err)
 			}
 		case <-sigChan:
