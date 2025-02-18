@@ -146,7 +146,6 @@ func reconcileDeployments(ociRegistry, deployDir string) error {
 		}
 
 		log.Printf("%s: fetching from remote", deployment.Name)
-		_ = os.MkdirAll(destDir, 0o755)
 
 		tempDir, err := os.MkdirTemp("", deployment.Name)
 		if err != nil {
@@ -191,6 +190,7 @@ func reconcileDeployments(ociRegistry, deployDir string) error {
 			if err := cmd.Run(); err != nil {
 				return err
 			}
+			_ = os.RemoveAll(destDir)
 		}
 
 		f, err := os.Open(app)
@@ -198,6 +198,8 @@ func reconcileDeployments(ociRegistry, deployDir string) error {
 			return err
 		}
 		defer f.Close()
+
+		_ = os.MkdirAll(destDir, 0o755)
 		if err := unpackTgz(f, destDir, true); err != nil {
 			return err
 		}
